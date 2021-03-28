@@ -24,7 +24,7 @@ jobs:
       ARM_SUBSCRIPTION_ID= '6be4fb31-7cd0-479b-91fa-257ad79dec12'
       ARM_TENANT_ID= 'bb2764bf-678f-4800-9dc7-2c959944ba90'
       ARM_CLIENT_ID= '684d0aef-efa4-4b5f-bb74-4fb2ec0c770d'
-      ARM_CLIENT_SECRET= ${{secrets.ARM_CLIENT_SECRET}}
+      ARM_CLIENT_SECRET= ${{ secrets.ARM_CLIENT_SECRET }}
       AZURE_STORAGE= 'terraformdemomas'
     
   
@@ -37,17 +37,17 @@ jobs:
         uses: Azure/login@v1
         with:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
-          creds: ${{secrets.AZURE_CREDENTIALS}}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Runs a single command using the runners shell
       - name: Build Terraform state
-        run: chmod +x ./tfstate.sh && ./tfstate.sh ${{env.AZURE_STORAGE}}
+        run: chmod +x ./tfstate.sh && ./tfstate.sh ${{ env.AZURE_STORAGE }}
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v1.2.1
         
       - name: Terraform init
-        run: Terraform init -backend-config="storage_account_name=${{env.AZURE_STORAGE}}
+        run: Terraform init -backend-config="storage_account_name=${{ env.AZURE_STORAGE }}
         
       - name: Terraform Plan
         run: terraform plan -out=tfplan
